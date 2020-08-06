@@ -1,4 +1,4 @@
-if ("serviceworker" in navigator) {
+if ("serviceWorker" in navigator) {
 
   window.addEventListener("load", () => {
 
@@ -145,7 +145,8 @@ function sendTransaction(isAdding) {
   })
   .catch(err => {
     // fetch failed, so save in indexed db
-    saveRecord(transaction);
+    console.log(transaction);
+    // saveTransaction(transaction);
 
     // clear form
     nameEl.value = "";

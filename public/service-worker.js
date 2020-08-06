@@ -14,8 +14,9 @@ const DATA_CACHE_NAME = "data-cache-v1";
  
 // install
 self.addEventListener("install", function(evt) {
+  console.log(`[Service Worker] Install`);
     evt.waitUntil(
-      caches.open(CACHE_NAME).then(cache => {
+      caches.open(CACHE_NAME).then((cache) => {
         console.log("Your files were pre-cached successfully!");
         return cache.addAll(FILES_TO_CACHE);
       })
@@ -43,6 +44,7 @@ self.addEventListener("install", function(evt) {
   
   // fetch
   self.addEventListener("fetch", function(evt) {
+    console.log(`[Service Worker] fetched resource` + evt.request.url)
     // cache successful requests to the API
     if (evt.request.url.includes("/api/")) {
       evt.respondWith(
