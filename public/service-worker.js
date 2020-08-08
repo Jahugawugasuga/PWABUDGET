@@ -25,26 +25,26 @@ self.addEventListener("install", function(evt) {
     self.skipWaiting();
   });
   
-  self.addEventListener("activate", function(evt) {
-    evt.waitUntil(
-      caches.keys().then(keyList => {
-        return Promise.all(
-          keyList.map(key => {
-            if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
-              console.log("Removing old cache data", key);
-              return caches.delete(key);
-            }
-          })
-        );
-      })
-    );
+  // self.addEventListener("activate", function(evt) {
+  //   evt.waitUntil(
+  //     caches.keys().then(keyList => {
+  //       return Promise.all(
+  //         keyList.map(key => {
+  //           if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+  //             console.log("Removing old cache data", key);
+  //             return caches.delete(key);
+  //           }
+  //         })
+  //       );
+  //     })
+  //   );
   
-    self.clients.claim();
-  });
+  //   self.clients.claim();
+  // });
   
   // fetch
   self.addEventListener("fetch", function(evt) {
-    console.log(`[Service Worker] fetched resource` + evt.request.url)
+    // console.log(`[Service Worker] fetched resource` + evt.request.url)
     // cache successful requests to the API
     if (evt.request.url.includes("/api/")) {
       evt.respondWith(
@@ -54,6 +54,7 @@ self.addEventListener("install", function(evt) {
               // If the response was good, clone it and store it in the cache.
               if (response.status === 200) {
                 cache.put(evt.request.url, response.clone());
+                console.log(response + "was good")
               }
   
               return response;
@@ -72,6 +73,8 @@ self.addEventListener("install", function(evt) {
     // see https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook#cache-falling-back-to-network
     evt.respondWith(
       caches.match(evt.request).then(function(response) {
+        console.log(response) //gets undefined on refresh
+        console.log(evt.request)//request method get for bootstrap 
         return response || fetch(evt.request);
       })
     );

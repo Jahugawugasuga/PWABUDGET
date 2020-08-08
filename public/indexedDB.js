@@ -20,7 +20,9 @@ request.onupgradeneeded = ({ target }) => {
   let db = target.result;
   console.log(db, "onupgrade")
   db.createObjectStore("transaction", {
-    autoIncrement: true
+    autoIncrement: true,
+    keyPath: "name"
+  
 
   });
 

@@ -87,7 +87,7 @@ function populateChart() {
   });
 }
 
-function sendTransaction(isAdding) {
+function sendTransaction(isAdding) { //this function is getting hit
   let nameEl = document.querySelector("#t-name");
   let amountEl = document.querySelector("#t-amount");
   let errorEl = document.querySelector(".form .error");
@@ -145,8 +145,8 @@ function sendTransaction(isAdding) {
   })
   .catch(err => {
     // fetch failed, so save in indexed db
-    console.log(transaction);
-    // saveTransaction(transaction);
+    console.log(transaction);//got this
+    addItem(transaction);
 
     // clear form
     nameEl.value = "";
